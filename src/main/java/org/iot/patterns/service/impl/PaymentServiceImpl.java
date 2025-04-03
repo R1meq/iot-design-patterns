@@ -43,4 +43,9 @@ public class PaymentServiceImpl implements PaymentService {
 
         paymentRepository.saveAllAndFlush(payments);
     }
+
+    @Override
+    public List<Payment> findAll() {
+        return paymentRepository.findAll();
+    }
 }

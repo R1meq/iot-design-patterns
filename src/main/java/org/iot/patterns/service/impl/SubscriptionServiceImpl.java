@@ -48,4 +48,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         subscriptionRepository.saveAllAndFlush(subscriptions);
     }
+
+    @Override
+    public List<Subscription> findAll() {
+        return subscriptionRepository.findAll();
+    }
 }

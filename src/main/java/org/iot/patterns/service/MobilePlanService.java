@@ -1,4 +1,6 @@
 package org.iot.patterns.service;
 
-public interface MobilePlanService extends WriteService {
+import org.iot.patterns.entity.MobilePlan;
+
+public interface MobilePlanService extends GeneralService<MobilePlan> {
 }

@@ -1,4 +1,6 @@
 package org.iot.patterns.service;
 
-public interface UserService extends WriteService {
+import org.iot.patterns.entity.User;
+
+public interface UserService extends GeneralService<User> {
 }

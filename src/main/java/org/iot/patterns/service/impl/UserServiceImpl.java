@@ -2,6 +2,7 @@ package org.iot.patterns.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.iot.patterns.entity.User;
 import org.iot.patterns.entity.enums.Type;
 import org.iot.patterns.mapper.UserMapper;
 import org.iot.patterns.repository.UserRepository;
@@ -27,6 +28,11 @@ public class UserServiceImpl implements UserService {
         }
         List<List<String>> data = CsvDataUtils.readRowDataByType(Type.USER);
         userRepository.saveAllAndFlush(userMapper.fromCsvRecords(data));
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
 }

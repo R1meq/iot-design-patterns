@@ -1,6 +1,7 @@
 package org.iot.patterns.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.iot.patterns.entity.MobilePlan;
 import org.iot.patterns.entity.enums.Type;
 import org.iot.patterns.mapper.MobilePlanMapper;
 import org.iot.patterns.repository.MobilePlanRepository;
@@ -25,5 +26,10 @@ public class MobilePlanServiceImpl implements MobilePlanService {
         }
         List<List<String>> data = CsvDataUtils.readRowDataByType(Type.MOBILE_PLAN);
         mobilePlanRepository.saveAllAndFlush(mobilePlanMapper.fromCsvRecords(data));
+    }
+
+    @Override
+    public List<MobilePlan> findAll() {
+        return mobilePlanRepository.findAll();
     }
 }

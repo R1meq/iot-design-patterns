@@ -48,4 +48,9 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.saveAllAndFlush(orders);
     }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
 }

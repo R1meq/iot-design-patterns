@@ -1,4 +1,6 @@
 package org.iot.patterns.service;
 
-public interface PaymentService extends WriteService{
+import org.iot.patterns.entity.Payment;
+
+public interface PaymentService extends GeneralService<Payment> {
 }
