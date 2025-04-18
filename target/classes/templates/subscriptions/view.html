@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Subscription</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Subscription Details</h1>
+
+    <div class="card">
+        <div class="card-header">
+            Subscription #<span th:text="${subscription.id}"></span>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <strong>User:</strong> <span th:text="${subscription.user.firstName}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Mobile Plan:</strong> <span th:text="${subscription.mobilePlan.name}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Start Date:</strong> <span th:text="${#temporals.format(subscription.startDate, 'dd-MM-yyyy')}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>End Date:</strong> <span th:text="${#temporals.format(subscription.endDate, 'dd-MM-yyyy')}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Status:</strong> <span th:text="${subscription.status}"></span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a th:href="@{/subscriptions}" class="btn btn-secondary">Back to List</a>
+            <a th:href="@{/subscriptions/{id}/edit(id=${subscription.id})}" class="btn btn-warning">Edit</a>
+            <a th:href="@{/subscriptions/{id}/delete(id=${subscription.id})}" class="btn btn-danger"
+               onclick="return confirm('Are you sure you want to delete this subscription?')">Delete</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

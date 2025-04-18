@@ -40,9 +40,10 @@ public class Payment {
     @Column(name = "payment_date", nullable = false)
     private BigDecimal amount;
 
+    @Builder.Default
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
     @Column(name = "payment_method", nullable = false)
     private PaymentMethod paymentMethod;

@@ -1,5 +1,6 @@
 package org.iot.patterns.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.iot.patterns.entity.MobilePlan;
 import org.iot.patterns.entity.Order;
@@ -52,5 +53,34 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAll() {
         return orderRepository.findAll();
+    }
+
+    @Override
+    public Order findById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public Order save(Order entity) {
+        userRepository.findById(entity.getUser().getId()).orElseThrow(EntityNotFoundException::new);
+        mobilePlanRepository.findById(entity.getMobilePlan().getId()).orElseThrow(EntityNotFoundException::new);
+        return orderRepository.save(entity);
+    }
+
+    @Override
+    public void update(Long id, Order entity) {
+        Order existingOrder = findById(id);
+        userRepository.findById(entity.getUser().getId()).orElseThrow(EntityNotFoundException::new);
+        mobilePlanRepository.findById(entity.getMobilePlan().getId()).orElseThrow(EntityNotFoundException::new);
+        existingOrder.setUser(entity.getUser());
+        existingOrder.setMobilePlan(entity.getMobilePlan());
+        orderRepository.save(existingOrder);
+    }
+
+    @Override
+    public void delete(Long id) {
+        findById(id);
+        orderRepository.deleteById(id);
     }
 }

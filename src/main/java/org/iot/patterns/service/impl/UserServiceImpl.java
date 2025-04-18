@@ -1,5 +1,6 @@
 package org.iot.patterns.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.iot.patterns.entity.User;
@@ -33,6 +34,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+
+    }
+
+    @Override
+    public User save(User entity) {
+        return userRepository.save(entity);
+    }
+
+    @Override
+    public void update(Long id, User entity) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        existingUser.setFirstName(entity.getFirstName());
+        existingUser.setLastName(entity.getLastName());
+        existingUser.setEmail(entity.getEmail());
+        userRepository.save(existingUser);
+    }
+
+    @Override
+    public void delete(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        userRepository.delete(user);
     }
 
 }

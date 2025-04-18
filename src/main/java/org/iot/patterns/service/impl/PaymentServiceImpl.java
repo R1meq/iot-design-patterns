@@ -1,5 +1,6 @@
 package org.iot.patterns.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.iot.patterns.entity.Order;
 import org.iot.patterns.entity.Payment;
@@ -47,5 +48,35 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payment> findAll() {
         return paymentRepository.findAll();
+    }
+
+    @Override
+    public Payment findById(Long id) {
+        return paymentRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public Payment save(Payment entity) {
+        orderRepository.findById(entity.getOrder().getId())
+                .orElseThrow(EntityNotFoundException::new);
+        return paymentRepository.save(entity);
+    }
+
+    @Override
+    public void update(Long id, Payment entity) {
+        Payment existingPayment = findById(id);
+        orderRepository.findById(entity.getOrder().getId()).orElseThrow(EntityNotFoundException::new);
+        existingPayment.setOrder(entity.getOrder());
+        existingPayment.setAmount(entity.getAmount());
+        existingPayment.setPaymentMethod(entity.getPaymentMethod());
+        existingPayment.setStatus(entity.getStatus());
+        paymentRepository.save(existingPayment);
+    }
+
+    @Override
+    public void delete(Long id) {
+        findById(id);
+        paymentRepository.deleteById(id);
     }
 }

@@ -1,5 +1,6 @@
 package org.iot.patterns.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.iot.patterns.entity.MobilePlan;
 import org.iot.patterns.entity.enums.Type;
@@ -31,5 +32,34 @@ public class MobilePlanServiceImpl implements MobilePlanService {
     @Override
     public List<MobilePlan> findAll() {
         return mobilePlanRepository.findAll();
+    }
+
+    @Override
+    public MobilePlan findById(Long id) {
+        return mobilePlanRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public MobilePlan save(MobilePlan entity) {
+        return mobilePlanRepository.save(entity);
+    }
+
+    @Override
+    public void update(Long id, MobilePlan entity) {
+        MobilePlan existingPlan = findById(id);
+        existingPlan.setName(entity.getName());
+        existingPlan.setDescription(entity.getDescription());
+        existingPlan.setPrice(entity.getPrice());
+        existingPlan.setDataLimit(entity.getDataLimit());
+        existingPlan.setCallMinutes(entity.getCallMinutes());
+        existingPlan.setSmsCount(entity.getSmsCount());
+        mobilePlanRepository.save(existingPlan);
+    }
+
+    @Override
+    public void delete(Long id) {
+        findById(id);
+        mobilePlanRepository.deleteById(id);
     }
 }

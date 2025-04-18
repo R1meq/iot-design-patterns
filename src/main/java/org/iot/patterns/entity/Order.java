@@ -1,15 +1,6 @@
 package org.iot.patterns.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -39,7 +32,12 @@ public class Order {
     @JoinColumn(name = "product_id", nullable = false)
     private MobilePlan mobilePlan;
 
+    @Builder.Default
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+
+    @Builder.Default
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Payment> payments = new ArrayList<>();
 }
